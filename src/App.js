@@ -1,25 +1,29 @@
-import logo from './logo.svg';
+// src/App.js
+import React, { useState } from 'react';
 import './App.css';
+import ChatList from './components/ChatList';
+import ChatWindow from './components/ChatWindow';
 
-function App() {
+const App = () => {
+  const [chats, setChats] = useState([
+    { id: 1, name: 'John Doe', icon: '👤' },
+    { id: 2, name: 'Jane Smith', icon: '👩' },
+    // Add more chat users as needed
+  ]);
+
+  const [selectedChat, setSelectedChat] = useState(null);
+
+  const onSelectChat = (chatId) => {
+    const selectedChat = chats.find(chat => chat.id === chatId);
+    setSelectedChat(selectedChat);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="app">
+        <ChatList chats={chats} onSelectChat={onSelectChat} />
+        <ChatWindow selectedChat={selectedChat} />
+      </div>
   );
-}
+};
 
 export default App;
