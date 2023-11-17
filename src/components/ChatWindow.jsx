@@ -142,7 +142,7 @@ const ChatWindow = ({ selectedChat }) => {
                             <p>Hello here</p>
                         </div>
                         <div className='user'>
-                            <p>Hellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd here</p>
+                            <p>Hellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellof here</p>
                         </div>
                         </div>
                     </div>
