@@ -18,7 +18,7 @@
 }
 
 .list{
-    margin-top: 104px;
+
 }
 
 .chat-list li {
@@ -35,9 +35,6 @@
 .chat-list-header{
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 0;
-    left: 0;
     background-color: white;
     border-bottom: 1px solid #d5d5d5;
 }
@@ -161,13 +158,47 @@ padding: 0;
 .chat-messages {
     overflow: auto;
     padding: 15px 20px;
-    height: 715px;
+    min-height: auto;
+    display: flex;
+    height: 100%;
     align-items: flex-end;
     flex-direction: column-reverse;
     background-image: url("/public/background.png");
-    background-size: cover; /* This property scales the background image to cover the entire container */
-    background-position: center; /* This property centers the background image within the container */
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
+}
+
+.user {
+    display: flex;
+    width: fit-content;
+    margin-left: auto;
+    font-size: 12px;
+    padding: 5px 10px;
+    border: none;
+    max-width: 300px;
+    border-radius: 10px;
+    background-color: #e1ffc7;
+    word-break: break-word;
+}
+
+.friend {
+    display: flex;
+    width: fit-content;
+    margin-right: auto;
+    font-size: 12px;
+    padding: 5px 10px;
+    border: none;
+    max-width: 300px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    word-break: break-word;
+}
+
+.friend p,
+.user p {
+    margin: 0;
+    text-align: left;
 }
 
 .chat-messages div{
@@ -181,6 +212,7 @@ padding: 0;
 }
 
 .window{
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -189,29 +221,14 @@ padding: 0;
 .chat-footer {
     display: flex;
     justify-content: space-between;
-    height: 40px;
 }
 
 .chat-footer input{
     width: 1000px;
     border: none;
-    margin-top: 15px;
+    margin-top: 7px;
     outline: none;
 }
 
-.user{
-    margin-left: calc(100% - 320px);
-    font-size: 12px;
-    padding: 5px 10px;
-    border: none;
-    min-height: 20px;
-    max-width: 300px;
-    border-radius: 10px;
-    background-color: #e1ffc7;
-}
 
-.user p{
-    padding-top: 3px;
-    margin: 0;
-    text-align: left;
-}
+

@@ -1,47 +1,76 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 const ChatWindow = ({ selectedChat }) => {
-    const [randomWord, setRandomWord] = useState(null);
-    const [currentTime, setCurrentTime] = useState(getFormattedTime());
-
+    const [randomWord, setRandomWord] = useState({word: "random"});
+    const [inputValue, setInputValue] = useState('');
+    const [messages, setMessages] = useState([]);
+    const storageKey = `chatMessages_${selectedChat ? selectedChat.id : ''}`;
     useEffect(() => {
-        const intervalId = setInterval(() => {
-            setCurrentTime(getFormattedTime());
-        }, 1000); // Update every second
+        const storedMessages = localStorage.getItem(storageKey);
+        if (storedMessages) {
+            setMessages(JSON.parse(storedMessages));
+        }
+        else{
+            setMessages([])
+        }
+    }, [selectedChat]);
 
-        // Cleanup the interval on component unmount
-        return () => clearInterval(intervalId);
-    }, []);
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
+    };
 
-    function getFormattedTime() {
-        const currentDate = new Date();
-        return currentDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    }
+    const handleSendMessage = () => {
+        if (inputValue.trim() !== '') {
+            setMessages([{ text: inputValue, type: 'user' }, ...messages]);
+            setInputValue('');
+        }
+    };
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await fetch('https://api.api-ninjas.com/v1/randomword', {
-    //                 method: 'GET',
-    //                 headers: {
-    //                     'X-Api-Key': process.env.REACT_APP_X_API, // Replace with your API key
-    //                     'Content-Type': 'application/json',
-    //                 },
-    //             });
-    //
-    //             if (!response.ok) {
-    //                 throw new Error(`Network response was not ok: ${response.statusText}`);
-    //             }
-    //
-    //             const result = await response.json();
-    //             setRandomWord(result);
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error.message);
-    //         }
-    //     };
-    //
-    //     fetchData();
-    // }, []); // The empty dependency array ensures that the effect runs once on mount
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            handleSendMessage();
+            await fetchData();
+            setTimeout(() => {
+                setMessages([
+
+                    { text: randomWord.word, type: 'friend' },
+                    { text: inputValue, type: 'user' },
+                    ...messages
+                ]);
+                localStorage.setItem(storageKey, JSON.stringify([
+                    { text: randomWord.word, type: 'friend' },
+                    { text: inputValue, type: 'user' },
+                    ...messages
+                ]));
+
+            }, 3000);
+        }
+    };
+
+
+
+
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://api.api-ninjas.com/v1/randomword', {
+                    method: 'GET',
+                    headers: {
+                        'X-Api-Key': process.env.REACT_APP_X_API, // Replace with your API key
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                setRandomWord(result);
+            } catch (error) {
+                console.error('Error fetching data:', error.message);
+            }
+        };
+
 
     return (
         <div className="chat-window">
@@ -75,87 +104,36 @@ const ChatWindow = ({ selectedChat }) => {
 
                     </div>
                     <div className="chat-messages">
-                        <div className="message-container">
+                        {messages.map((message, index) => (
+                            <div key={index} className={message.type}>
+                                <p>{message.text}</p>
 
+                            </div>
+                        ))}
 
-                        <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-                        <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-      <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-                        <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-      <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-                        <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-      <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-                        <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-      <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-                        <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-      <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-                        <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-      <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-                        <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-      <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-                        <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-      <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-                        <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-      <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-                        <div className='user'>
-                            <p className='text'>Hello here</p>
-                        </div>
-      <div className='user'>
-                            <p>Hello here</p>
-                        </div>
-                        <div className='user'>
-                            <p>Hellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellofd hereHellof here</p>
-                        </div>
-                        </div>
                     </div>
                     <div className="chat-footer">
-                        <div >
-                            <svg id='icon' xmlns="http://www.w3.org/2000/svg" height="30" viewBox="0 -960 960 960" width="26">
+                        <div>
+                            <svg
+                                id="icon"
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="30"
+                                viewBox="0 -960 960 960"
+                                width="26"
+
+                            >
                                 <path
-                                    fill='#9d9d9d' d="M460-80q-92 0-156-64t-64-156v-420q0-66 47-113t113-47q66 0 113 47t47 113v380q0 42-29 71t-71 29q-42 0-71-29t-29-71v-380h60v380q0 17 11.5 28.5T460-300q17 0 28.5-11.5T500-340v-380q0-42-29-71t-71-29q-42 0-71 29t-29 71v420q0 66 47 113t113 47q66 0 113-47t47-113v-420h60v420q0 92-64 156T460-80Z"/>
+                                    fill="#9d9d9d"
+                                    d="M460-80q-92 0-156-64t-64-156v-420q0-66 47-113t113-47q66 0 113 47t47 113v380q0 42-29 71t-71 29q-42 0-71-29t-29-71v-380h60v380q0 17 11.5 28.5T460-300q17 0 28.5-11.5T500-340v-380q0-42-29-71t-71-29q-42 0-71 29t-29 71v420q0 66 47 113t113 47q66 0 113-47t47-113v-420h60v420q0 92-64 156T460-80Z"
+                                ></path>
                             </svg>
                         </div>
-
-                            <input placeholder='Write a message...'/>
-
+                        <input
+                            placeholder="Write a message..."
+                            value={inputValue}
+                            onChange={handleInputChange}
+                            onKeyDown={handleKeyDown}
+                        />
                         <div className='icons-chat'>
                             <svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 -960 960 960" width="26">
                                 <path
@@ -172,7 +150,6 @@ const ChatWindow = ({ selectedChat }) => {
                         </div>
 
                     </div>
-                    {randomWord && <p>Random Word: {randomWord.word}</p>}
                 </div>
             ) : (
                 <div className="empty-chat">Select a chat to start messaging</div>
